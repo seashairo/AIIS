@@ -1,1 +1,5 @@
+# Matlab auto save files.
 *.asv
+# The testing and training databases (seriously, these are 200MB each, don't push them)
+training.mat
+testing.mat
