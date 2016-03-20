@@ -1,0 +1,7 @@
+* Pre-processing
+- Upon casual inspection, I didn't spot any images that were washed out in comparison to the others.
+- Conversion to grayscale for simplicity. The amount of information lost by converting to grayscale is negligible.
+- http://stackoverflow.com/questions/20473352/is-conversion-to-gray-scale-a-necessary-step-in-image-preprocessing
+- Images neg/{524, 2801, 2951} came as grayscale
+
+* Feature Extraction
