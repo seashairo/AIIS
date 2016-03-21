@@ -41,11 +41,15 @@ clear ii im;
 colormap(gray);
 
 %% Feature Extraction Coming Soon (tm)
-% rawPixelBased uses training.images
-% dimensionality reduction uses PCA - WARNING: SLOWER THAN A CUP OF DIRT
+% Raw pixel based uses training.images
+% Dimensionality reduction uses PCA - WARNING: SLOWER THAN A CUP OF DIRT
 disp('Rescaling images for PCA.');
 imagesRescaled = rescaleImages(training.images, pcaScale, imX, imY);
 disp('Starting dimensionality reduction with PCA.');
 [eigenVectors, eigenValues, imMean, imPCA] = applyPCA(imagesRescaled);
+
+% HOG Feature Extraction
+positiveFeatureVectors = extractHogFeatures(positiveTraining, imY, imX);
+negativeFeatureVectors = extractHogFeatures(negativeTraining, imY, imX);
 
 %% Classification Coming Soon (tm)
