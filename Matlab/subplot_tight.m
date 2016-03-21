@@ -1,5 +1,5 @@
-function h=subplot_Tight(m,n,p,margins,varargin)
-%function subplot_Tight(m,n,p,margins,varargin)
+function h=subplot_tight(m,n,p,margins,varargin)
+%function subplot_tight(m,n,p,margins,varargin)
 %
 % Functional purpose: A wrapper function for Matlab function subplot. Adds the ability to define the margins between
 % neighbouring subplots. Unfotrtunately Matlab subplot function lacks this functionality, and the margins between
