@@ -5,3 +5,4 @@
 - Images neg/{524, 2801, 2951} came as grayscale
 
 * Feature Extraction
+-hogFeatureCalc && showHog are Jesus's and are taken from Practical4 See slide 13 of the Assignment ppt for allowance of use.

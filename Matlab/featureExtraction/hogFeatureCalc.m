@@ -1,5 +1,6 @@
-function [feature] = hog_feature_vector(im)
+function [feature] = hogFeatureCalc(im)
 
+% TAKEN FROM PRACTICAL 4 OF AIS CSC4067
 % The given code finds the HOG feature vector for any given image. HOG
 % feature vector/descriptor can then be used for detection of any
 % particular object. The Matlab code provides the exact implementation of

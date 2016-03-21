@@ -1,5 +1,6 @@
 function []=showHog(feature,rsize)
 
+% TAKEN FROM PRACTICAL 4 OF AIS CSC4067
 
 blocksPerColumn=rsize(1)/8-1;
 blocksPerRow=rsize(2)/8-1;
