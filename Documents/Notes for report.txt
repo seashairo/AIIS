@@ -5,3 +5,6 @@
 - Images neg/{524, 2801, 2951} came as grayscale
 
 * Feature Extraction
+
+* FILES WE DIDN'T WRITE
+- subplot_tight.m from http://uk.mathworks.com/matlabcentral/fileexchange/30884-controllable-tight-subplot/content/subplot_tight/subplot_tight.m
