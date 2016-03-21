@@ -33,6 +33,10 @@ clear ii im;
 
 colormap(gray);
 
-%% Feature Extraction Coming Soon (tm)
+%% Feature Extraction
+
+%% HOG Feature Extraction
+positiveFeatureVectors = extractHogFeatures(positiveTraining, imY, imX);
+negativeFeatureVectors = extractHogFeatures(negativeTraining, imY, imX);
 
 %% Classification Coming Soon (tm)
