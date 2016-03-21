@@ -1,19 +1,26 @@
-function [training, testing] = loadTrainingTestingImages(forceRebuild)
+function [training, testing] = loadTrainingTestingImages(forceRebuild, sampling)
 % Loads images from the images folder into training and testing databases.
+% If forceRebuild is 1, then the image db will be reconstructed using the
+% given sampling rate, otherwise it will attempt to load from a .mat file.
+
     % If the image db already exists, load it instead of building it again.
-    if nargin == 0
+    if forceRebuild == 0
         if exist('training.mat', 'file') == 2 && exist('testing.mat', 'file') == 2
-            disp('Loading images from .mat files.');
+            disp('Loading image database from .mat files.');
             load training;
             load testing;
             return;
+        else
+            disp('Couldn''t find training and testing databases. Rebuilding now...');
         end
+    else
+        disp('Building image database...');
     end
-    disp('Couldn"t find training and testing databases. Generating now...');
+    
     
     % Get list of images.
-    negativeImages = loadPreprocessedImagesFrom('images/neg/');
-    positiveImages = loadPreprocessedImagesFrom('images/pos/');
+    negativeImages = loadPreprocessedImagesFrom('images/neg/', sampling);
+    positiveImages = loadPreprocessedImagesFrom('images/pos/', sampling);
     
     % Assign images to testing and training.
     [negTraining negTesting] = splitImageList(negativeImages);
@@ -35,12 +42,12 @@ end
 
 
 
-function [images] = loadPreprocessedImagesFrom(path)
+function [images] = loadPreprocessedImagesFrom(path, sampling)
 % Loads and preprocesses images from given path and returns them.
 % Preprocessing involves converting into a doubled grayscale vector.
     imageDir = dir(path);
     images = [];
-    for ii=1 : size(imageDir)
+    for ii=1 : sampling : size(imageDir)
         file = imageDir(ii);
         % dir() also loads . and .. as names - those can't be read.
         if file.isdir == 1
