@@ -48,20 +48,34 @@ colormap(gray);
 % Raw pixel based uses training.images
 % Dimensionality reduction uses PCA - WARNING: SLOWER THAN A CUP OF DIRT
 disp('Rescaling images for PCA.');
-imagesRescaled = rescaleImages(training.images, pcaScale, imX, imY);
+trainingImagesRescaled = rescaleImages(training.images, pcaScale, imX, imY);
+testingImagesRescaled = rescaleImages(testing.images, pcaScale, imX, imY);
 disp('Starting dimensionality reduction with PCA.');
-[eigenVectors, eigenValues, imMean, imPCA] = applyPCA(imagesRescaled);
+[eigenVectors, eEigenValues, imMean, pcaTrainingImages] = applyPCA(trainingImagesRescaled, 29);
+% Apply PCA to testing images separately.
+pcaTestImages = [];
+for i = 1 : size(testingImagesRescaled, 1)
+    pcaTestImages = [pcaTestImages; ((testingImagesRescaled(i, :) - imMean) * eigenVectors)];
+end
 
 % HOG Feature Extraction
 disp ('Extracting HOG Feature Vectors.');
-positiveFeatureVectors = extractHogFeatures(positiveTraining, imY, imX);
-negativeFeatureVectors = extractHogFeatures(negativeTraining, imY, imX);
+trainingFeatureVectors = extractHogFeatures(training.images, imY, imX);
+testingFeatureVectors = extractHogFeatures(testing.images, imY, imX);
 
 %% Classification
 % NN Classification
 disp('NN Raw Images');
 disp(trainAndTest(training.images, training.labels, @NNTraining, testing.images, testing.labels, @NNTesting));
+disp('NN HOG');
+disp(trainAndTest(trainingFeatureVectors, training.labels, @NNTraining, testingFeatureVectors, testing.labels, @NNTesting));
+disp('NN PCA')
+disp(trainAndTest(pcaTrainingImages, training.labels, @NNTraining, pcaTestImages, testing.labels, @NNTesting));
 
 % SVM Classification
 disp('SVM Raw Images');
 disp(trainAndTest(training.images, training.labels, @SVMTraining, testing.images, testing.labels, @SVMTesting));
+disp('SVM HOG');
+disp(trainAndTest(trainingFeatureVectors, training.labels, @SVMTraining, testingFeatureVectors, testing.labels, @SVMTesting));
+disp('SVM PCA')
+disp(trainAndTest(pcaTrainingImages, training.labels, @SVMTraining, pcaTestImages, testing.labels, @SVMTesting));
