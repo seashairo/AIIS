@@ -43,23 +43,48 @@ colormap(gray);
 %% Feature Extraction Coming Soon (tm)
 % Raw pixel based uses training.images
 % Dimensionality reduction uses PCA - WARNING: SLOWER THAN A CUP OF DIRT
-disp('Rescaling images for PCA.');
-imagesRescaled = rescaleImages(training.images, pcaScale, imX, imY);
-disp('Starting dimensionality reduction with PCA.');
-[eigenVectors, eigenValues, imMean, imPCA] = applyPCA(imagesRescaled);
+disp('Rescaling training images for PCA.');
+trainingImagesRescaled = rescaleImages(training.images, pcaScale, imX, imY);
+disp('Starting training dimensionality reduction with PCA.');
+[trainingEigenVectors, trainingEigenValues, trainingImMean, trainingImPCA] = applyPCA(trainingImagesRescaled, 29);
+
+disp('Rescaling testing images for PCA.');
+testingImagesRescaled = rescaleImages(testing.images, pcaScale, imX, imY);
+disp('Starting testing dimensionality reduction with PCA.');
+[testingEigenVectors, testingEigenValues, testingImMean, testingImPCA] = applyPCA(testingImagesRescaled, 30);
 
 % HOG Feature Extraction
 disp ('Extracting HOG Feature Vectors.');
-positiveFeatureVectors = extractHogFeatures(positiveTraining, imY, imX);
-negativeFeatureVectors = extractHogFeatures(negativeTraining, imY, imX);
+trainingFeatureVectors = extractHogFeatures(training.images, imY, imX);
+testingFeatureVectors = extractHogFeatures(testing.images, imY, imX);
 
 %% Classification
 
-% SVM Classification
-disp ('Generating SVM Model');
+% Binary SVM Classification
+disp ('Generating binary SVM Model');
 SVMModel = SVMTraining(training.images, training.labels);
-Results = SVMTesting(SVMModel, testing.images);
+binaryPredictions = SVMTesting(SVMModel, testing.images);
 
-disp ('Calculating SVM Accuracy');
-comparison = (testing.labels==Results);
-Accuracy = sum(comparison)/length(comparison)
+disp ('Calculating binary SVM Accuracy');
+binaryComparison = (testing.labels==binaryPredictions);
+binaryAccuracy = sum(binaryComparison)/length(binaryComparison)
+
+% Hog SVM Classification
+disp ('Calculating HOG SVM Model');
+HOGSVMModel = SVMTraining(trainingFeatureVectors, training.labels);
+HOGPredictions = SVMTesting(HOGSVMModel, testingFeatureVectors);
+
+disp ('Calculating HOG SVM Accuracy');
+HOGComparison = (testing.labels==HOGPredictions);
+HOGAccuracy = sum(HOGComparison)/length(HOGComparison)
+
+% PCA SVM Classification
+disp ('Calculating PCA SVM Model')
+trainingEigenVectors = trainingEigenVectors';
+PCASVMModel = SVMTraining(trainingEigenVectors, training.labels);
+testingEigenVectors = testingEigenVectors';
+PCAPredictions = SVMTesting(PCASVMModel, testingEigenVectors);
+
+disp ('Calculating PCA SVM Accuracy');
+PCAComparison = (testing.labels==PCAPredictions);
+PCAAccuracy = sum(PCAComparison)/length(PCAComparison)
