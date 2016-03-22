@@ -24,6 +24,11 @@ negativeTesting = testing.images(testing.labels == -1, :);
 positiveTesting = testing.images(testing.labels == 1, :);
 disp('Loaded training and testing images.');
 
+%% Load video data.
+disp('Loading video data.');
+video = loadVideoFrames('pedestrian/');
+disp('Loaded video data.');
+
 %% Show some images from training data.
 figure('Name','Negative Images','NumberTitle','Off','Position', [100, 100, 960, 800]);
 for ii = 1 : min(size(negativeTraining, 1), 100)
@@ -44,7 +49,7 @@ clear ii im;
 
 colormap(gray);
 
-%% Feature Extraction Coming Soon (tm)
+%% Feature Extraction.
 % Raw pixel based uses training.images
 % Dimensionality reduction uses PCA - WARNING: SLOWER THAN A CUP OF DIRT
 disp('Rescaling images for PCA.');
@@ -93,3 +98,5 @@ disp('SVM HOG');
 disp(trainAndTest(trainingFeatureVectors, training.labels, @SVMTraining, testingFeatureVectors, testing.labels, @SVMTesting));
 disp('SVM PCA')
 disp(trainAndTest(pcaTrainingImages, training.labels, @SVMTraining, pcaTestImages, testing.labels, @SVMTesting));
+
+implay(video);
