@@ -1,5 +1,9 @@
+%% Initialisation
 close all;
 clear all;
+addpath('utils');
+addpath('featureExtraction');
+addpath('classification');
 
 %% Global parameters used throughout project.
 % Sampling rate for loading images.
@@ -54,12 +58,10 @@ positiveFeatureVectors = extractHogFeatures(positiveTraining, imY, imX);
 negativeFeatureVectors = extractHogFeatures(negativeTraining, imY, imX);
 
 %% Classification
+% NN Classification
+disp('NN Raw Images');
+disp(trainAndTest(training.images, training.labels, @NNTraining, testing.images, testing.labels, @NNTesting));
 
 % SVM Classification
-disp ('Generating SVM Model');
-SVMModel = SVMTraining(training.images, training.labels);
-Results = SVMTesting(SVMModel, testing.images);
-
-disp ('Calculating SVM Accuracy');
-comparison = (testing.labels==Results);
-Accuracy = sum(comparison)/length(comparison)
+disp('SVM Raw Images');
+disp(trainAndTest(training.images, training.labels, @SVMTraining, testing.images, testing.labels, @SVMTesting));
