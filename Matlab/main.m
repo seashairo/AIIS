@@ -21,7 +21,7 @@ positiveTesting = testing.images(testing.labels == 1, :);
 disp('Loaded training and testing images.');
 
 %% Show some images from training data.
-figure('Position', [100, 100, 960, 800]);
+figure('Name','Negative Images','NumberTitle','Off','Position', [100, 100, 960, 800]);
 for ii = 1 : min(size(negativeTraining, 1), 100)
     subplot_tight(5, 10, ii);
     im = negativeTraining(ii, :);
@@ -29,7 +29,7 @@ for ii = 1 : min(size(negativeTraining, 1), 100)
     imshow(im);
 end
 
-figure('Position', [100, 100, 960, 800]);
+figure('Name','Positive Images','NumberTitle','Off','Position', [100, 100, 960, 800]);
 for ii = 1 : min(size(positiveTraining, 1), 100)
     subplot_tight(5, 10, ii);
     im = positiveTraining(ii, :);
@@ -49,7 +49,17 @@ disp('Starting dimensionality reduction with PCA.');
 [eigenVectors, eigenValues, imMean, imPCA] = applyPCA(imagesRescaled);
 
 % HOG Feature Extraction
+disp ('Extracting HOG Feature Vectors.');
 positiveFeatureVectors = extractHogFeatures(positiveTraining, imY, imX);
 negativeFeatureVectors = extractHogFeatures(negativeTraining, imY, imX);
 
-%% Classification Coming Soon (tm)
+%% Classification
+
+% SVM Classification
+disp ('Generating SVM Model');
+SVMModel = SVMTraining(training.images, training.labels);
+Results = SVMTesting(SVMModel, testing.images);
+
+disp ('Calculating SVM Accuracy');
+comparison = (testing.labels==Results);
+Accuracy = sum(comparison)/length(comparison)
