@@ -7,7 +7,7 @@ addpath('classification');
 
 %% Global parameters used throughout project.
 % Sampling rate for loading images.
-sampling = 50;
+sampling = 10;
 % Image dimensions
 imX = 96;
 imY = 160;
@@ -71,6 +71,20 @@ disp('NN HOG');
 disp(trainAndTest(trainingFeatureVectors, training.labels, @NNTraining, testingFeatureVectors, testing.labels, @NNTesting));
 disp('NN PCA')
 disp(trainAndTest(pcaTrainingImages, training.labels, @NNTraining, pcaTestImages, testing.labels, @NNTesting));
+
+% KNN Classification
+disp('KNN3 Raw Images');
+disp(trainAndTest(training.images, training.labels, @NNTraining, testing.images, testing.labels, @KNN3Testing));
+disp('KNN3 HOG');
+disp(trainAndTest(trainingFeatureVectors, training.labels, @NNTraining, testingFeatureVectors, testing.labels, @KNN3Testing));
+disp('KNN3 PCA')
+disp(trainAndTest(pcaTrainingImages, training.labels, @NNTraining, pcaTestImages, testing.labels, @KNN3Testing));
+disp('KNN9 Raw Images');
+disp(trainAndTest(training.images, training.labels, @NNTraining, testing.images, testing.labels, @KNN9Testing));
+disp('KNN9 HOG');
+disp(trainAndTest(trainingFeatureVectors, training.labels, @NNTraining, testingFeatureVectors, testing.labels, @KNN9Testing));
+disp('KNN9 PCA')
+disp(trainAndTest(pcaTrainingImages, training.labels, @NNTraining, pcaTestImages, testing.labels, @KNN9Testing));
 
 % SVM Classification
 disp('SVM Raw Images');

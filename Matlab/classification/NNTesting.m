@@ -3,7 +3,7 @@ function [ prediction ] = NNTesting( model, testImages )
 
     prediction = [];
     for i = 1 : size(testImages, 1)
-        prediction = [prediction; predictNN(model, testImages(i, :))];
+        prediction = [prediction; predictNN(model, testImages(i, :), 1)];
     end
 end
 

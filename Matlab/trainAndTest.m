@@ -1,6 +1,7 @@
 function [ accuracy ] = trainAndTest( images, labels, modelFunction, testData, testLabels, testFunction )
-% Does a thing.
-
+% Builds a model using the modelFunction, images, and labels.
+% Then tests the function using testFunction with testImages and
+% testLabels.
     model = modelFunction(images, labels);
     results = testFunction(model, testData);
     comparison = (testLabels == results);
