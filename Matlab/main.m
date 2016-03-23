@@ -8,7 +8,7 @@ addpath('testing');
 
 %% Global parameters used throughout project.
 % Sampling rate for loading images.
-sampling = 1;
+sampling = 50;
 % Image dimensions
 imX = 96;
 imY = 160;
