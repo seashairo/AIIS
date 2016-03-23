@@ -29,8 +29,8 @@ function [training, testing] = loadTrainingTestingImages(forceRebuild, sampling)
     testing = struct('images', [negTesting; posTesting]);
     
     % Set image labels.
-    training.labels = [ones(size(negTraining, 1), 1) * -1; ones(size(posTraining, 1), 1)];
-    testing.labels = [ones(size(negTesting, 1), 1) * -1; ones(size(posTesting, 1), 1)];
+    training.labels = [ones(size(negTraining, 1), 1) * 0; ones(size(posTraining, 1), 1)];
+    testing.labels = [ones(size(negTesting, 1), 1) * 0; ones(size(posTesting, 1), 1)];
     
     % For convenience, add struct sizes.
     training.size = size(training.labels, 1);

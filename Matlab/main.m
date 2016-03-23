@@ -4,10 +4,11 @@ clear all;
 addpath('utils');
 addpath('featureExtraction');
 addpath('classification');
+addpath('testing');
 
 %% Global parameters used throughout project.
 % Sampling rate for loading images.
-sampling = 10;
+sampling = 1;
 % Image dimensions
 imX = 96;
 imY = 160;
@@ -74,7 +75,6 @@ testingFeatureVectors = extractHogFeatures(testing.images, imY, imX);
 % NN Classification
 [accuracy, results] = trainAndTest(training.images, training.labels, ...
     @NNTraining, testing.images, testing.labels, @NNTesting);
-displayResults(testing.images, testing.labels, results, imX, imY);
 disp(strcat('NN Raw Images - Accuracy =  ', num2str(accuracy)));
 [accuracy, results] = trainAndTest(trainingFeatureVectors, training.labels, ...
     @NNTraining,  testingFeatureVectors, testing.labels, @NNTesting);
@@ -113,6 +113,8 @@ disp(strcat('SVM Raw Images - Accuracy =  ', num2str(accuracy)));
 disp(strcat('SVM HOG - Accuracy =  ', num2str(accuracy)));
 [accuracy, results] = trainAndTest(pcaTrainingImages, training.labels, ...
     @SVMTraining, pcaTestImages, testing.labels, @SVMTesting);
+rr = evaluateResults(testing.labels, results);
+displayResults(testing.images, testing.labels, results, imX, imY);
 disp(strcat('SVM PCA - Accuracy =  ', num2str(accuracy)));
 
 implay(video);
