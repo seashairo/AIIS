@@ -1,4 +1,4 @@
-function [windows, boxPoint] = slidingWindow(image, winY, winX, stepY, stepX, direction)
+function [windows, boxPoints] = slidingWindow(image, winY, winX, stepY, stepX, direction)
 % SLIDINGWINDOW Splits up a image into discrete windows
 % goes through an image at a specific rate spliting it.
 % returns a matrix of the segments, and the boxpoints.
@@ -38,24 +38,23 @@ for jj = topLeftCol : stepY : bottomRightCol-winY
     for ii = topLeftRow : stepX : bottomRightRow-winX;
         % top left corner of rectangle.
         p1 = [ii,jj];
-        p2 = [winX-1, winY-1];
         % bottom right corner of rectangle.
+        p2 = [winX-1, winY-1];
         cutout = [p1, p2];
         window = imcrop(image,cutout);
         
         % Flip the image back after creating a cutout.
         if direction == 1
             window = permute(window,[2,1,3]);
-            imshow(window);
         end
         
         windowGray = rgb2gray(window);
         imVector = reshape(windowGray, 1, size(windowGray,1), size(windowGray, 2));
-        windows = [windows; imVector];
+        imDouble = im2double(imVector);
+        windows = [windows; imDouble];
         
-        boxPoint(fcount,:) = [ii,jj];
+        boxPoints(fcount,:) = [ii,jj];
         fcount = fcount+1;
     end
 end
 end
-
