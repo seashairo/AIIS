@@ -104,6 +104,39 @@ disp(strcat('KNN9 HOG - Accuracy =  ', num2str(accuracy)));
     @NNTraining, pcaTestImages, testing.labels, @KNN9Testing);
 disp(strcat('KNN9 PCA - Accuracy =  ', num2str(accuracy)));
 
+%{
+%Fuzzy KNN Testing
+[accuracy, results] = trainAndTest(training.images, training.labels, ...
+    @NNTraining, testing.images, testing.labels, @FuzzyKNN9Testing);
+disp(strcat('Fuzzy 9-NN Raw Images - Accuracy =  ', num2str(accuracy)));
+[accuracy, results] = trainAndTest(trainingFeatureVectors, training.labels, ...
+    @NNTraining,  testingFeatureVectors, testing.labels, @FuzzyKNN9Testing);
+disp(strcat('Fuzzy 9-NN HOG - Accuracy =  ', num2str(accuracy)));
+[accuracy, results] = trainAndTest(pcaTrainingImages, training.labels, ...
+    @NNTraining, pcaTestImages, testing.labels, @FuzzyKNN9Testing);
+disp(strcat('Fuzzy 9-NN PCA - Accuracy =  ', num2str(accuracy)));
+
+[accuracy, results] = trainAndTest(training.images, training.labels, ...
+    @NNTraining, testing.images, testing.labels, @FuzzyKNN9LowWeightTesting);
+disp(strcat('Fuzzy 9-NN Low Weight Raw Images - Accuracy =  ', num2str(accuracy)));
+[accuracy, results] = trainAndTest(trainingFeatureVectors, training.labels, ...
+    @NNTraining,  testingFeatureVectors, testing.labels, @FuzzyKNN9LowWeightTesting);
+disp(strcat('Fuzzy 9-NN Low Weight HOG - Accuracy =  ', num2str(accuracy)));
+[accuracy, results] = trainAndTest(pcaTrainingImages, training.labels, ...
+    @NNTraining, pcaTestImages, testing.labels, @FuzzyKNN9LowWeightTesting);
+disp(strcat('Fuzzy 9-NN Low Weight PCA - Accuracy =  ', num2str(accuracy)));
+
+[accuracy, results] = trainAndTest(training.images, training.labels, ...
+    @NNTraining, testing.images, testing.labels, @FuzzyKNN9HighWeightTesting);
+disp(strcat('Fuzzy 9-NN High Weight Raw Images - Accuracy =  ', num2str(accuracy)));
+[accuracy, results] = trainAndTest(trainingFeatureVectors, training.labels, ...
+    @NNTraining,  testingFeatureVectors, testing.labels, @FuzzyKNN9HighWeightTesting);
+disp(strcat('Fuzzy 9-NN High Weight HOG - Accuracy =  ', num2str(accuracy)));
+[accuracy, results] = trainAndTest(pcaTrainingImages, training.labels, ...
+    @NNTraining, pcaTestImages, testing.labels, @FuzzyKNN9HighWeightTesting);
+disp(strcat('Fuzzy 9-NN High Weight PCA - Accuracy =  ', num2str(accuracy)));
+%}
+
 % SVM Classification
 [accuracy, results] = trainAndTest(training.images, training.labels, ...
     @SVMTraining, testing.images, testing.labels, @SVMTesting);

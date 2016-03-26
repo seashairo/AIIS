@@ -10,7 +10,7 @@ function [ prediction, confidence ] = fuzzyPredictNN( model, testImage, K, proxi
         % Get the minimum euclidean distance & associated label from the test
         % image to the samples in the model.
         for i=1:size(model.samples, 1)
-            distance = EuclidianDistance(testImage, model.samples(i, :));
+            distance = euclideanDistance(testImage, model.samples(i, :));
             if distance < minDistance
                 minDistance = distance;
                 minLabel = model.labels(i);
@@ -28,7 +28,7 @@ function [ prediction, confidence ] = fuzzyPredictNN( model, testImage, K, proxi
         end
         confidences = [];
         for i=1:size(model.samples, 1)
-            distance = EuclidianDistance(testImage, model.samples(i, :));
+            distance = euclideanDistance(testImage, model.samples(i, :));
             [maxVal maxIndex] = max(minDistances(:, 1));
             
             % If a given label from the sample has not been added for
