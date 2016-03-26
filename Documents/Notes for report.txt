@@ -15,3 +15,4 @@
 - SVM is taken from the built in toolboxes
 - http://uk.mathworks.com/help/stats/fitcsvm.html?refresh=true
 - http://uk.mathworks.com/help/stats/compactclassificationdiscriminant.predict.html
+- Fuzzy KNN is derived from http://sci2s.ugr.es/keel/pdf/algorithm/articulo/1985-IEEE_TSMC-Keller.pdf
