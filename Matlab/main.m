@@ -104,7 +104,6 @@ disp(strcat('KNN9 HOG - Accuracy =  ', num2str(accuracy)));
     @NNTraining, pcaTestImages, testing.labels, @KNN9Testing);
 disp(strcat('KNN9 PCA - Accuracy =  ', num2str(accuracy)));
 
-%{
 %Fuzzy KNN Testing
 [accuracy, results] = trainAndTest(training.images, training.labels, ...
     @NNTraining, testing.images, testing.labels, @FuzzyKNN9Testing);
@@ -135,7 +134,17 @@ disp(strcat('Fuzzy 9-NN High Weight HOG - Accuracy =  ', num2str(accuracy)));
 [accuracy, results] = trainAndTest(pcaTrainingImages, training.labels, ...
     @NNTraining, pcaTestImages, testing.labels, @FuzzyKNN9HighWeightTesting);
 disp(strcat('Fuzzy 9-NN High Weight PCA - Accuracy =  ', num2str(accuracy)));
-%}
+
+%Adaboost Classification
+[accuracy, results] = trainAndTest(training.images, training.labels, ...
+    @AdaboostTraining, testing.images, testing.labels, @AdaboostTesting);
+disp(strcat('Adaboost Raw Images - Accuracy =  ', num2str(accuracy)));
+[accuracy, results] = trainAndTest(trainingFeatureVectors, training.labels, ...
+    @AdaboostTraining,  testingFeatureVectors, testing.labels, @AdaboostTesting);
+disp(strcat('Adaboost HOG - Accuracy =  ', num2str(accuracy)));
+[accuracy, results] = trainAndTest(pcaTrainingImages, training.labels, ...
+    @AdaboostTraining, pcaTestImages, testing.labels, @AdaboostTesting);
+disp(strcat('Adaboost PCA - Accuracy =  ', num2str(accuracy)));
 
 % SVM Classification
 [accuracy, results] = trainAndTest(training.images, training.labels, ...
