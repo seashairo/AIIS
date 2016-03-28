@@ -104,6 +104,16 @@ disp(strcat('KNN9 HOG - Accuracy =  ', num2str(accuracy)));
     @NNTraining, pcaTestImages, testing.labels, @KNN9Testing);
 disp(strcat('KNN9 PCA - Accuracy =  ', num2str(accuracy)));
 
+accuracy = CrossValidation([training.images;testing.images],[training.labels;testing.labels],...
+    @NNTraining,@KNN9Testing,4,2,100,0);
+ disp(strcat('KNN9 Cross Validation - Accuracy =  ', num2str(accuracy)));
+ accuracy = CrossValidation([trainingFeatureVectors;testingFeatureVectors],[training.labels;testing.labels],...
+    @NNTraining,@KNN9Testing,4,2,100,0);
+ disp(strcat('KNN9 HOG Cross Validation - Accuracy =  ', num2str(accuracy)));
+ accuracy = CrossValidation([pcaTrainingImages;pcaTestImages],[training.labels;testing.labels],...
+    @NNTraining,@KNN9Testing,4,2,100,0);
+disp(strcat('KNN9 PCA Cross Validation - Accuracy =  ', num2str(accuracy)));
+
 %Fuzzy KNN Testing
 [accuracy, results] = trainAndTest(training.images, training.labels, ...
     @NNTraining, testing.images, testing.labels, @FuzzyKNN9Testing);
