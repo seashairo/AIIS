@@ -73,100 +73,56 @@ testingFeatureVectors = extractHogFeatures(testing.images, imY, imX);
 
 %% Classification
 % NN Classification
-[accuracy, results] = trainAndTest(training.images, training.labels, ...
-    @NNTraining, testing.images, testing.labels, @NNTesting);
-disp(strcat('NN Raw Images - Accuracy =  ', num2str(accuracy)));
-[accuracy, results] = trainAndTest(trainingFeatureVectors, training.labels, ...
-    @NNTraining,  testingFeatureVectors, testing.labels, @NNTesting);
-disp(strcat('NN HOG - Accuracy =  ', num2str(accuracy)));
-[accuracy, results] = trainAndTest(pcaTrainingImages, training.labels, ...
-    @NNTraining, pcaTestImages, testing.labels, @NNTesting);
-disp(strcat('NN PCA - Accuracy =  ', num2str(accuracy)));
-
+trainingFunction = @NNTraining;
+testingFunction = @NNTesting;
+classificationName = 'NN';
+testingResults(training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels, trainingFunction,testingFunction,classificationName);
+        
 % KNN Classification
-[accuracy, results] = trainAndTest(training.images, training.labels, ...
-    @NNTraining, testing.images, testing.labels, @KNN3Testing);
-disp(strcat('KNN3 Raw Images - Accuracy =  ', num2str(accuracy)));
-[accuracy, results] = trainAndTest(trainingFeatureVectors, training.labels, ...
-    @NNTraining,  testingFeatureVectors, testing.labels, @KNN3Testing);
-disp(strcat('KNN3 HOG - Accuracy =  ', num2str(accuracy)));
-[accuracy, results] = trainAndTest(pcaTrainingImages, training.labels, ...
-    @NNTraining, pcaTestImages, testing.labels, @KNN3Testing);
-disp(strcat('KNN3 PCA - Accuracy =  ', num2str(accuracy)));
+trainingFunction = @NNTraining;
+testingFunction = @KNN3Testing;
+classificationName = 'KNN3';
+testingResults(training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels, trainingFunction,testingFunction,classificationName);
 
-[accuracy, results] = trainAndTest(training.images, training.labels, ...
-    @NNTraining, testing.images, testing.labels, @KNN9Testing);
-disp(strcat('KNN9 Raw Images - Accuracy =  ', num2str(accuracy)));
-[accuracy, results] = trainAndTest(trainingFeatureVectors, training.labels, ...
-    @NNTraining,  testingFeatureVectors, testing.labels, @KNN9Testing);
-disp(strcat('KNN9 HOG - Accuracy =  ', num2str(accuracy)));
-[accuracy, results] = trainAndTest(pcaTrainingImages, training.labels, ...
-    @NNTraining, pcaTestImages, testing.labels, @KNN9Testing);
-disp(strcat('KNN9 PCA - Accuracy =  ', num2str(accuracy)));
+trainingFunction = @NNTraining;
+testingFunction = @KNN9Testing;
+classificationName = 'KNN9';
+testingResults(training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels, trainingFunction,testingFunction,classificationName);
 
-accuracy = CrossValidation([training.images;testing.images],[training.labels;testing.labels],...
-    @NNTraining,@KNN9Testing,4,2,100,0);
- disp(strcat('KNN9 Cross Validation - Accuracy =  ', num2str(accuracy)));
- accuracy = CrossValidation([trainingFeatureVectors;testingFeatureVectors],[training.labels;testing.labels],...
-    @NNTraining,@KNN9Testing,4,2,100,0);
- disp(strcat('KNN9 HOG Cross Validation - Accuracy =  ', num2str(accuracy)));
- accuracy = CrossValidation([pcaTrainingImages;pcaTestImages],[training.labels;testing.labels],...
-    @NNTraining,@KNN9Testing,4,2,100,0);
-disp(strcat('KNN9 PCA Cross Validation - Accuracy =  ', num2str(accuracy)));
+%Fuzzy KNN Classification
+trainingFunction = @NNTraining;
+testingFunction = @FuzzyKNN9Testing;
+classificationName = 'Fuzzy KNN9';
+testingResults(training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels, trainingFunction,testingFunction,classificationName);
 
-%Fuzzy KNN Testing
-[accuracy, results] = trainAndTest(training.images, training.labels, ...
-    @NNTraining, testing.images, testing.labels, @FuzzyKNN9Testing);
-disp(strcat('Fuzzy 9-NN Raw Images - Accuracy =  ', num2str(accuracy)));
-[accuracy, results] = trainAndTest(trainingFeatureVectors, training.labels, ...
-    @NNTraining,  testingFeatureVectors, testing.labels, @FuzzyKNN9Testing);
-disp(strcat('Fuzzy 9-NN HOG - Accuracy =  ', num2str(accuracy)));
-[accuracy, results] = trainAndTest(pcaTrainingImages, training.labels, ...
-    @NNTraining, pcaTestImages, testing.labels, @FuzzyKNN9Testing);
-disp(strcat('Fuzzy 9-NN PCA - Accuracy =  ', num2str(accuracy)));
+trainingFunction = @NNTraining;
+testingFunction = @FuzzyKNN9LowWeightTesting;
+classificationName = 'Fuzzy Low Weight KNN9';
+testingResults(training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels, trainingFunction,testingFunction,classificationName);
 
-[accuracy, results] = trainAndTest(training.images, training.labels, ...
-    @NNTraining, testing.images, testing.labels, @FuzzyKNN9LowWeightTesting);
-disp(strcat('Fuzzy 9-NN Low Weight Raw Images - Accuracy =  ', num2str(accuracy)));
-[accuracy, results] = trainAndTest(trainingFeatureVectors, training.labels, ...
-    @NNTraining,  testingFeatureVectors, testing.labels, @FuzzyKNN9LowWeightTesting);
-disp(strcat('Fuzzy 9-NN Low Weight HOG - Accuracy =  ', num2str(accuracy)));
-[accuracy, results] = trainAndTest(pcaTrainingImages, training.labels, ...
-    @NNTraining, pcaTestImages, testing.labels, @FuzzyKNN9LowWeightTesting);
-disp(strcat('Fuzzy 9-NN Low Weight PCA - Accuracy =  ', num2str(accuracy)));
-
-[accuracy, results] = trainAndTest(training.images, training.labels, ...
-    @NNTraining, testing.images, testing.labels, @FuzzyKNN9HighWeightTesting);
-disp(strcat('Fuzzy 9-NN High Weight Raw Images - Accuracy =  ', num2str(accuracy)));
-[accuracy, results] = trainAndTest(trainingFeatureVectors, training.labels, ...
-    @NNTraining,  testingFeatureVectors, testing.labels, @FuzzyKNN9HighWeightTesting);
-disp(strcat('Fuzzy 9-NN High Weight HOG - Accuracy =  ', num2str(accuracy)));
-[accuracy, results] = trainAndTest(pcaTrainingImages, training.labels, ...
-    @NNTraining, pcaTestImages, testing.labels, @FuzzyKNN9HighWeightTesting);
-disp(strcat('Fuzzy 9-NN High Weight PCA - Accuracy =  ', num2str(accuracy)));
-
-%Adaboost Classification
-[accuracy, results] = trainAndTest(training.images, training.labels, ...
-    @AdaboostTraining, testing.images, testing.labels, @AdaboostTesting);
-disp(strcat('Adaboost Raw Images - Accuracy =  ', num2str(accuracy)));
-[accuracy, results] = trainAndTest(trainingFeatureVectors, training.labels, ...
-    @AdaboostTraining,  testingFeatureVectors, testing.labels, @AdaboostTesting);
-disp(strcat('Adaboost HOG - Accuracy =  ', num2str(accuracy)));
-[accuracy, results] = trainAndTest(pcaTrainingImages, training.labels, ...
-    @AdaboostTraining, pcaTestImages, testing.labels, @AdaboostTesting);
-disp(strcat('Adaboost PCA - Accuracy =  ', num2str(accuracy)));
+trainingFunction = @NNTraining;
+testingFunction = @FuzzyKNN9HighWeightTesting;
+classificationName = 'Fuzzy High Weight KNN9';
+testingResults(training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels, trainingFunction,testingFunction,classificationName);
 
 % SVM Classification
-[accuracy, results] = trainAndTest(training.images, training.labels, ...
-    @SVMTraining, testing.images, testing.labels, @SVMTesting);
-disp(strcat('SVM Raw Images - Accuracy =  ', num2str(accuracy)));
-[accuracy, results] = trainAndTest(trainingFeatureVectors, training.labels, ...
-    @SVMTraining,  testingFeatureVectors, testing.labels, @SVMTesting);
-disp(strcat('SVM HOG - Accuracy =  ', num2str(accuracy)));
+trainingFunction = @SVMTraining;
+testingFunction = @SVMTesting;
+classificationName = 'SVM';
+testingResults(training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels, trainingFunction,testingFunction,classificationName);
+
 [accuracy, results] = trainAndTest(pcaTrainingImages, training.labels, ...
     @SVMTraining, pcaTestImages, testing.labels, @SVMTesting);
 rr = evaluateResults(testing.labels, results);
 displayResults(testing.images, testing.labels, results, imX, imY);
-disp(strcat('SVM PCA - Accuracy =  ', num2str(accuracy)));
+
+%Adaboost Classification
+trainingFunction = @AdaboostTraining;
+testingFunction = @AdaboostTesting;
+classificationName = 'Adaboost';
+testingResults(training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels, trainingFunction,testingFunction,classificationName);
+
+%Cross Validation
+CrossValidateResults([training.images;testing.images], [trainingFeatureVectors;testingFeatureVectors],[pcaTrainingImages;pcaTestImages],[training.labels;testing.labels]);
 
 implay(video);

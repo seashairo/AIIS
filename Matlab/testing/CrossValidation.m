@@ -2,6 +2,9 @@ function [ accuracy ] = CrossValidation(images, labels, modelFunction, testFunct
 %This method takes a set of images and a set of labels generates from them
 %a number of ratio-based splits of them into two sets, a testing set and a
 %training set. Each split is then tested with the source 
+%Note that a proportionally higher trainRatio may result in overfitting,
+%while a proportionally lower trainRatio may result in an insufficiently
+%trained classifier
 
 %If no valid iteration number is provided, the algorithm attempts to
 %default to the number of total permutations with the provided ratios, or
@@ -26,8 +29,7 @@ accuracies = [];
 %This loop creates iteration many test-training sets and passes them to the
 %testing and training function with the chosen classification method.
 for i=1:iterations
-    [trainImages, trainLabels, testImages, testLabels] = splitDataSet(images, labels, testRatio, trainRatio);
-    
+    [trainImages, trainLabels, testImages, testLabels] = splitDataSet(images, labels, trainRatio, testRatio);
     [accuracy,results] = trainAndTest(trainImages,trainLabels,modelFunction,...
         testImages,testLabels, testFunction);
 
