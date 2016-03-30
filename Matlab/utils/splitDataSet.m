@@ -1,4 +1,4 @@
-function [ trainImages, trainLabels, testImages, testLabels ] = splitDataSet( images, labels, trainRatio, testRatio )
+function [ trainImages, trainLabels, testImages, testLabels, testIndices ] = splitDataSet( images, labels, trainRatio, testRatio )
 %This function splits the dataset into two based on the input ratios, one
 %representing the training set and one representing the testing set
 
@@ -30,5 +30,6 @@ trainImages = images(Train);
 trainLabels = labels(Train);
 testImages = images(Test);
 testLabels = labels(Test);
+testIndices = Test;
 end
 
