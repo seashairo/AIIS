@@ -20,7 +20,7 @@ testRatio = testRatio / gcd(trainRatio,testRatio);
 
 %This uses the ratios given to determine the number of results from the
 %provided dataset to allocate to the testing set
-testSetSize = uint8(testRatio * size(images,1) / (testRatio + trainRatio));
+testSetSize = uint32(testRatio * size(images,1) / (testRatio + trainRatio));
 
 %This generates a random split of the dataset using the size of the 
 %dataset and the desired size of the test set.
