@@ -26,9 +26,9 @@ testSetSize = uint32(testRatio * size(images,1) / (testRatio + trainRatio));
 %dataset and the desired size of the test set.
 [Train, Test] = crossvalind('LeaveMOut', size(images,1), testSetSize);
 
-trainImages = images(Train);
-trainLabels = labels(Train);
-testImages = images(Test);
-testLabels = labels(Test);
+trainImages = images(Train,:);
+trainLabels = labels(Train,:);
+testImages = images(Test,:);
+testLabels = labels(Test,:);
 end
 
