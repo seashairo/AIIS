@@ -1,4 +1,4 @@
-function [ accuracy ] = CrossValidation(images, labels, modelFunction, testFunction, trainRatio, testRatio, iterations, seed)
+function [ accuracy, consistentlyMislabelled ] = CrossValidation(images, labels, modelFunction, testFunction, trainRatio, testRatio, iterations, seed)
 %This method takes a set of images and a set of labels generates from them
 %a number of ratio-based splits of them into two sets, a testing set and a
 %training set. Each split is then tested with the source 
@@ -25,16 +25,37 @@ if nargin >=8
 end
 
 accuracies = [];
+consistentlyMislabelled = [];
 
 %This loop creates iteration many test-training sets and passes them to the
 %testing and training function with the chosen classification method.
-for i=1:iterations
-    [trainImages, trainLabels, testImages, testLabels] = splitDataSet(images, labels, trainRatio, testRatio);
+    consistentlyMislabelled = zeros(size(images,1));
+    contextualisedResults = zeros(size(images,1));
+
+    for i=1:iterations
+    [trainImages, trainLabels, testImages, testLabels, testIndices] = splitDataSet(images, labels, trainRatio, testRatio);
     [accuracy,results] = trainAndTest(trainImages,trainLabels,modelFunction,...
         testImages,testLabels, testFunction);
-
+    
+    %This calculates which images every iteration of the loop has
+    %incorectly classified.
+    idx=1;
+    for j=1:size(images,1)
+        if testIndices(j)
+            if labels(j) == results(idx)
+                consistentlyMislabelled(j) = -1;
+            else
+                consistentlyMislabelled(j) = consistentlyMislabelled(j) + 1;
+            end
+            idx=idx+1;
+        end
+    end
     accuracies = [accuracies;accuracy];
-end
+    end
+
+%If every iteration of the loop that considered an image as a test image
+%incorrectly classified it, 1 is returned, otherwise 0.
+consistentlyMislabelled(consistentlyMislabelled > 0) = 1;
 
 %This calculates the average of the accuracy results to determine the
 %average accuracy of the method based off of the provided ratios of

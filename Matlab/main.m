@@ -72,55 +72,15 @@ trainingFeatureVectors = extractHogFeatures(training.images, imY, imX);
 testingFeatureVectors = extractHogFeatures(testing.images, imY, imX);
 
 %% Classification
-% NN Classification
-trainingFunction = @NNTraining;
-testingFunction = @NNTesting;
-classificationName = 'NN';
-testingResults(training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels, trainingFunction,testingFunction,classificationName);
-        
-% KNN Classification
-trainingFunction = @NNTraining;
-testingFunction = @KNN3Testing;
-classificationName = 'KNN3';
-testingResults(training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels, trainingFunction,testingFunction,classificationName);
-
-trainingFunction = @NNTraining;
-testingFunction = @KNN9Testing;
-classificationName = 'KNN9';
-testingResults(training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels, trainingFunction,testingFunction,classificationName);
-
-%Fuzzy KNN Classification
-trainingFunction = @NNTraining;
-testingFunction = @FuzzyKNN9Testing;
-classificationName = 'Fuzzy KNN9';
-testingResults(training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels, trainingFunction,testingFunction,classificationName);
-
-trainingFunction = @NNTraining;
-testingFunction = @FuzzyKNN9LowWeightTesting;
-classificationName = 'Fuzzy Low Weight KNN9';
-testingResults(training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels, trainingFunction,testingFunction,classificationName);
-
-trainingFunction = @NNTraining;
-testingFunction = @FuzzyKNN9HighWeightTesting;
-classificationName = 'Fuzzy High Weight KNN9';
-testingResults(training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels, trainingFunction,testingFunction,classificationName);
-
-% SVM Classification
-trainingFunction = @SVMTraining;
-testingFunction = @SVMTesting;
-classificationName = 'SVM';
-testingResults(training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels, trainingFunction,testingFunction,classificationName);
+%Single run with 50:50 split
+trainAndTestResults( training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels )
 
 [accuracy, results] = trainAndTest(pcaTrainingImages, training.labels, ...
     @SVMTraining, pcaTestImages, testing.labels, @SVMTesting);
 rr = evaluateResults(testing.labels, results);
 displayResults(testing.images, testing.labels, results, imX, imY);
 
-%Adaboost Classification
-trainingFunction = @AdaboostTraining;
-testingFunction = @AdaboostTesting;
-classificationName = 'Adaboost';
-testingResults(training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels, trainingFunction,testingFunction,classificationName);
+    hold on;
 
 %Cross Validation
 CrossValidateResults([training.images;testing.images], [trainingFeatureVectors;testingFeatureVectors],[pcaTrainingImages;pcaTestImages],[training.labels;testing.labels]);
