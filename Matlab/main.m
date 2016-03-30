@@ -2,13 +2,14 @@
 close all;
 clear all;
 addpath('utils');
+addpath('detection');
 addpath('featureExtraction');
 addpath('classification');
 addpath('testing');
 
 %% Global parameters used throughout project.
 % Sampling rate for loading images.
-sampling = 50;
+sampling = 10;
 % Image dimensions
 imX = 96;
 imY = 160;
@@ -85,4 +86,34 @@ displayResults(testing.images, testing.labels, results, imX, imY);
 %Cross Validation
 CrossValidateResults([training.images;testing.images], [trainingFeatureVectors;testingFeatureVectors],[pcaTrainingImages;pcaTestImages],[training.labels;testing.labels]);
 
-implay(video);
+[accuracry, results, model] = trainAndTest(trainingFeatureVectors, training.labels, @SVMTraining, testingFeatureVectors, testing.labels, @SVMTesting);
+objects = [];
+for ii = 1 : size(video,4)
+    tic
+    disp(strcat('Processing Frame  ', num2str(ii)));
+    % search each frame with an window size of 1.5*imY and 1.5*imX;
+    [video(:,:,:,ii), tempobjects] = objectDetection(video(:,:,:,ii), model, 240, 144, 0.7);
+    objects = [objects; tempobjects];
+    [video(:,:,:,ii), tempobjects] = objectDetection(video(:,:,:,ii), model, 160, 96, 0.7);
+    objects = [objects; tempobjects];
+    [video(:,:,:,ii), tempobjects] = objectDetection(video(:,:,:,ii), model, 80, 46, 0.7);
+    objects = [objects; tempobjects];
+    % apply NMS if we have objects and draw the boxes.
+    if isempty(objects) == 0
+        objects = simpleNMS(objects, 0.3);
+    end
+
+    for jj = 1 : size(objects,1) 
+        video(:,:,:,ii) = addBoxToImage(video(:,:,:,ii), objects(jj,1), objects(jj,2), objects(jj,5), objects(jj,4));
+    end
+    toc
+end
+
+
+
+implay(video, 5);
+
+%vidObj = VideoWriter('SlidingWindow.avi')
+%open(vidObj)
+%writeVideo(vidObj,video);
+%close(vidObj)

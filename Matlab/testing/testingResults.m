@@ -22,6 +22,5 @@ tic
     modelFunction, testingPCAimages, testingLabels, testingFunction);
 disp(strcat(classifierName,' PCA Images - Accuracy =  ', num2str(accuracy)));
 disp(strcat(classifierName,' PCA Images - Time =  ', num2str(toc)));
-
 end
 
