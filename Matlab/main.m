@@ -2,13 +2,16 @@
 close all;
 clear all;
 addpath('utils');
+addpath('detection');
 addpath('featureExtraction');
 addpath('classification');
 addpath('testing');
 
 %% Global parameters used throughout project.
 % Sampling rate for loading images.
-sampling = 50;
+sampling = 10;
+disp(strcat('Sample rate: 1 in',char(20),num2str(sampling),' images.'));
+
 % Image dimensions
 imX = 96;
 imY = 160;
@@ -19,9 +22,9 @@ pcaNumDimensions = 10;
 %% Load training and testing data.
 disp('Loading training and testing images.');
 [training testing] = loadTrainingTestingImages(1, sampling);
-negativeTraining = training.images(training.labels == -1, :);
+negativeTraining = training.images(training.labels == 0, :);
 positiveTraining = training.images(training.labels == 1, :);
-negativeTesting = testing.images(testing.labels == -1, :);
+negativeTesting = testing.images(testing.labels == 0, :);
 positiveTesting = testing.images(testing.labels == 1, :);
 disp('Loaded training and testing images.');
 
@@ -56,6 +59,7 @@ colormap(gray);
 % Raw pixel based uses training.images
 % Dimensionality reduction uses PCA - WARNING: SLOWER THAN A CUP OF DIRT
 disp('Rescaling images for PCA.');
+tic
 trainingImagesRescaled = rescaleImages(training.images, pcaScale, imX, imY);
 testingImagesRescaled = rescaleImages(testing.images, pcaScale, imX, imY);
 disp('Starting dimensionality reduction with PCA.');
@@ -65,64 +69,58 @@ pcaTestImages = [];
 for i = 1 : size(testingImagesRescaled, 1)
     pcaTestImages = [pcaTestImages; ((testingImagesRescaled(i, :) - imMean) * eigenVectors)];
 end
+disp(strcat('Dimensionality reduction with PCA took',char(20),num2str(toc),' seconds to complete.'));
+
 
 % HOG Feature Extraction
 disp ('Extracting HOG Feature Vectors.');
+tic
 trainingFeatureVectors = extractHogFeatures(training.images, imY, imX);
 testingFeatureVectors = extractHogFeatures(testing.images, imY, imX);
+disp(strcat('Extracting HOG Feature Vectors took',char(20),num2str(toc),' seconds to complete.'));
 
 %% Classification
-% NN Classification
-trainingFunction = @NNTraining;
-testingFunction = @NNTesting;
-classificationName = 'NN';
-testingResults(training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels, trainingFunction,testingFunction,classificationName);
-        
-% KNN Classification
-trainingFunction = @NNTraining;
-testingFunction = @KNN3Testing;
-classificationName = 'KNN3';
-testingResults(training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels, trainingFunction,testingFunction,classificationName);
+%Single run with 50:50 split
+%trainAndTestResults( training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels )
 
-trainingFunction = @NNTraining;
-testingFunction = @KNN9Testing;
-classificationName = 'KNN9';
-testingResults(training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels, trainingFunction,testingFunction,classificationName);
-
-%Fuzzy KNN Classification
-trainingFunction = @NNTraining;
-testingFunction = @FuzzyKNN9Testing;
-classificationName = 'Fuzzy KNN9';
-testingResults(training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels, trainingFunction,testingFunction,classificationName);
-
-trainingFunction = @NNTraining;
-testingFunction = @FuzzyKNN9LowWeightTesting;
-classificationName = 'Fuzzy Low Weight KNN9';
-testingResults(training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels, trainingFunction,testingFunction,classificationName);
-
-trainingFunction = @NNTraining;
-testingFunction = @FuzzyKNN9HighWeightTesting;
-classificationName = 'Fuzzy High Weight KNN9';
-testingResults(training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels, trainingFunction,testingFunction,classificationName);
-
-% SVM Classification
-trainingFunction = @SVMTraining;
-testingFunction = @SVMTesting;
-classificationName = 'SVM';
-testingResults(training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels, trainingFunction,testingFunction,classificationName);
-
+%{
 [accuracy, results] = trainAndTest(pcaTrainingImages, training.labels, ...
     @SVMTraining, pcaTestImages, testing.labels, @SVMTesting);
 rr = evaluateResults(testing.labels, results);
 displayResults(testing.images, testing.labels, results, imX, imY);
 
-%Adaboost Classification
-trainingFunction = @AdaboostTraining;
-testingFunction = @AdaboostTesting;
-classificationName = 'Adaboost';
-testingResults(training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels, trainingFunction,testingFunction,classificationName);
+    hold on;
+%}
 
 %Cross Validation
-CrossValidateResults([training.images;testing.images], [trainingFeatureVectors;testingFeatureVectors],[pcaTrainingImages;pcaTestImages],[training.labels;testing.labels]);
+%CrossValidateResults([training.images;testing.images], [trainingFeatureVectors;testingFeatureVectors],[pcaTrainingImages;pcaTestImages],[training.labels;testing.labels]);
 
-implay(video);
+[ model ] = SVMTraining(trainingFeatureVectors, training.labels);
+objects = [];
+for ii = 1 : 10 %size(video,4)
+    tic
+    disp(strcat('Processing Frame  ', num2str(ii)));
+    % search each frame with an window size of 1.5*imY and 1.5*imX;
+    [video(:,:,:,ii), tempobjects] = objectDetection(video(:,:,:,ii), model, 240, 144, 0.7);
+    objects = [objects; tempobjects];
+    [video(:,:,:,ii), tempobjects] = objectDetection(video(:,:,:,ii), model, 160, 96, 0.7);
+    objects = [objects; tempobjects];
+    [video(:,:,:,ii), tempobjects] = objectDetection(video(:,:,:,ii), model, 80, 46, 0.7);
+    objects = [objects; tempobjects];
+    % apply NMS if we have objects and draw the boxes.
+    if isempty(objects) == 0
+        objects = simpleNMS(objects, 0.3);
+    end
+
+    for jj = 1 : size(objects,1) 
+        video(:,:,:,ii) = addBoxToImage(video(:,:,:,ii), objects(jj,1), objects(jj,2), objects(jj,5), objects(jj,4));
+    end
+    toc
+end
+
+implay(video, 5);
+
+%vidObj = VideoWriter('SlidingWindow.avi')
+%open(vidObj)
+%writeVideo(vidObj,video);
+%close(vidObj)

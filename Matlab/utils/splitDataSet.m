@@ -1,4 +1,4 @@
-function [ trainImages, trainLabels, testImages, testLabels ] = splitDataSet( images, labels, trainRatio, testRatio )
+function [ trainImages, trainLabels, testImages, testLabels, testIndices ] = splitDataSet( images, labels, trainRatio, testRatio )
 %This function splits the dataset into two based on the input ratios, one
 %representing the training set and one representing the testing set
 
@@ -20,15 +20,16 @@ testRatio = testRatio / gcd(trainRatio,testRatio);
 
 %This uses the ratios given to determine the number of results from the
 %provided dataset to allocate to the testing set
-testSetSize = uint8(testRatio * size(images,1) / (testRatio + trainRatio));
+testSetSize = uint32(testRatio * size(images,1) / (testRatio + trainRatio));
 
 %This generates a random split of the dataset using the size of the 
 %dataset and the desired size of the test set.
 [Train, Test] = crossvalind('LeaveMOut', size(images,1), testSetSize);
 
-trainImages = images(Train);
-trainLabels = labels(Train);
-testImages = images(Test);
-testLabels = labels(Test);
+trainImages = images(Train,:);
+trainLabels = labels(Train,:);
+testImages = images(Test,:);
+testLabels = labels(Test,:);
+testIndices = Test;
 end
 
