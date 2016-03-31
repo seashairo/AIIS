@@ -100,7 +100,13 @@ displayResults(testing.images, testing.labels, results, imX, imY);
 %CrossValidateResults([training.images;testing.images], [trainingFeatureVectors;testingFeatureVectors],[pcaTrainingImages;pcaTestImages],[training.labels;testing.labels]);
 
 [ model ] = SVMTraining(trainingFeatureVectors, training.labels);
-for ii = 1 : size(video,4)
+
+% Roc Curve for SVM HOG Example
+%[ Prediction, confidence ] = SVMTesting(model,testingFeatureVectors);
+%rocCurves(Prediction, confidence, ' SVM HOG');
+
+% Perform Multi Scale object detection.
+for ii = 1 : size(SampleVideo,4)
     tic
     objects = [];
     disp(strcat('Processing Frame  ', num2str(ii)));
@@ -124,6 +130,7 @@ for ii = 1 : size(video,4)
     toc
 end
 
+% Add Bounding Boxes to SampleVideo.
 for ii = 1 : size(SampleVideo,4)
      tic
      disp(strcat('Processing Frame  ', num2str(ii)));
