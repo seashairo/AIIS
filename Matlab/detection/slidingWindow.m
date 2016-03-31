@@ -20,8 +20,6 @@ if nargin < 6
     arg6 = 0;
 end
 
-imgray = rgb2gray(image);
-image = im2double(imgray);
 topLeftCol = 1;
 topLeftRow = 1;
 
@@ -29,6 +27,9 @@ topLeftRow = 1;
 if direction == 1
     image = permute(image,[2,1,3]);
 end
+
+imgray = rgb2gray(image);
+image = im2double(imgray);
 
 [bottomRightCol, bottomRightRow, ~] = size(image);
 

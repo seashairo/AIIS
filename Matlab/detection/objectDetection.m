@@ -3,7 +3,7 @@ function [image, objects] = objectDetection(image, model, imY, imX, threshhold)
 
 % Segment up the supplied image. Area of imY*imX gets scaled to 160*96 for
 % feature extraction.
-[windows, boxPoints] = slidingWindow(image, imY, imX, 40, 24, 0);
+[windows, boxPoints] = slidingWindow(image, imY, imX, imY/3, imX/3, 0);
 
 % Do feature Extraction HOG 
 featureVector = extractHogFeatures(windows, 160, 96);
