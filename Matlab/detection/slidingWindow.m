@@ -51,6 +51,7 @@ for jj = topLeftCol : stepY : bottomRightCol-winY
             window = permute(window,[2,1,3]);
         end
         windowResize = imresize(window,[160, 96]);
+        
         imVector = reshape(windowResize, 1, size(windowResize,1) * size(windowResize, 2));
         windows = [windows; imVector];
         
