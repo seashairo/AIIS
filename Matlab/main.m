@@ -147,6 +147,6 @@ implay(SampleVideo, 5);
 implay(TestVideo, 5);
 
 % Write Videos to disk.
-CreateVideoFile('OrginalVideo.avi',OriginalVideo);
-CreateVideoFile('SampleVideo.avi',SampleVideo);
-CreateVideoFile('TestVideo.avi',TestVideo);
+CreateVideoFile('OrginalVideo.avi',OriginalVideo,5);
+CreateVideoFile('SampleVideo.avi',SampleVideo,5);
+CreateVideoFile('TestVideo.avi',TestVideo,5);
