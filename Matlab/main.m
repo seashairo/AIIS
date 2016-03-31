@@ -100,7 +100,7 @@ displayResults(testing.images, testing.labels, results, imX, imY);
 %CrossValidateResults([training.images;testing.images], [trainingFeatureVectors;testingFeatureVectors],[pcaTrainingImages;pcaTestImages],[training.labels;testing.labels]);
 
 [ model ] = SVMTraining(trainingFeatureVectors, training.labels);
-for ii = 1 : size(video,4)
+for ii = 1 : size(SampleVideo,4)
     tic
     objects = [];
     disp(strcat('Processing Frame  ', num2str(ii)));
@@ -108,11 +108,11 @@ for ii = 1 : size(video,4)
     [SampleVideo(:,:,:,ii), tempobjects] = objectDetection(SampleVideo(:,:,:,ii), model, 240, 144, 0.7);
     objects = [objects; tempobjects];
     % search each frame with an window size of imY and imX;
-    [SampleVideo(:,:,:,ii), tempobjects] = objectDetection(SampleVideo(:,:,:,ii), model, 160, 96, 0.7);
-    objects = [objects; tempobjects];
+    %[SampleVideo(:,:,:,ii), tempobjects] = objectDetection(SampleVideo(:,:,:,ii), model, 160, 96, 0.7);
+    %objects = [objects; tempobjects];
     % search each frame with an window size of 0.5*imY and 0.5*imX;
-    [SampleVideo(:,:,:,ii), tempobjects] = objectDetection(SampleVideo(:,:,:,ii), model, 80, 48, 0.7);
-    objects = [objects; tempobjects];
+    %[SampleVideo(:,:,:,ii), tempobjects] = objectDetection(SampleVideo(:,:,:,ii), model, 80, 48, 0.7);
+    %objects = [objects; tempobjects];
     % apply NMS if we have objects and draw the boxes.
     if isempty(objects) == 0
         objects = simpleNMS(objects, 0.3);
