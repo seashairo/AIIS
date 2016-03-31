@@ -53,6 +53,11 @@ testingFunction = @AdaboostTesting;
 classificationName = 'Adaboost';
 testingResults(trainingImages, testingImages, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, trainingLabels, testingLabels, trainingFunction,testingFunction,classificationName);
 
+%Composite Classification
+trainingFunction = @CompositeModelTraining;
+testingFunction = @CompositeModelTesting;
+classificationName = 'Composite Adaboost/SVM';
+testingResults(trainingImages, testingImages, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, trainingLabels, testingLabels, trainingFunction,testingFunction,classificationName);
 
 end
 
