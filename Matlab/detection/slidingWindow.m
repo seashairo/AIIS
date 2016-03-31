@@ -28,6 +28,9 @@ if direction == 1
     image = permute(image,[2,1,3]);
 end
 
+imgray = rgb2gray(image);
+image = im2double(imgray);
+
 [bottomRightCol, bottomRightRow, ~] = size(image);
 
 fcount = 1;
@@ -48,10 +51,8 @@ for jj = topLeftCol : stepY : bottomRightCol-winY
             window = permute(window,[2,1,3]);
         end
         windowResize = imresize(window,[160, 96]);
-        windowGray = rgb2gray(windowResize);
-        imVector = reshape(windowGray, 1, size(windowGray,1) * size(windowGray, 2));
-        imDouble = im2double(imVector);
-        windows = [windows; imDouble];
+        imVector = reshape(windowResize, 1, size(windowResize,1) * size(windowResize, 2));
+        windows = [windows; imVector];
         
         boxPoints(fcount,:) = [ii,jj];
         fcount = fcount+1;
