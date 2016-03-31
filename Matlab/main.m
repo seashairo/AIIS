@@ -100,7 +100,7 @@ displayResults(testing.images, testing.labels, results, imX, imY);
 %CrossValidateResults([training.images;testing.images], [trainingFeatureVectors;testingFeatureVectors],[pcaTrainingImages;pcaTestImages],[training.labels;testing.labels]);
 
 [ model ] = SVMTraining(trainingFeatureVectors, training.labels);
-for ii = 1 : 10 %size(video,4)
+for ii = 1 : size(video,4)
     tic
     objects = [];
     disp(strcat('Processing Frame  ', num2str(ii)));
