@@ -96,9 +96,9 @@ displayResults(testing.images, testing.labels, results, imX, imY);
 %CrossValidateResults([training.images;testing.images], [trainingFeatureVectors;testingFeatureVectors],[pcaTrainingImages;pcaTestImages],[training.labels;testing.labels]);
 
 [ model ] = SVMTraining(trainingFeatureVectors, training.labels);
-objects = [];
 for ii = 1 : 10 %size(video,4)
     tic
+    objects = [];
     disp(strcat('Processing Frame  ', num2str(ii)));
     % search each frame with an window size of 1.5*imY and 1.5*imX;
     [video(:,:,:,ii), tempobjects] = objectDetection(video(:,:,:,ii), model, 240, 144, 0.7);
