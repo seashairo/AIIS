@@ -1,0 +1,40 @@
+in CrossValidateIterateCall
+iterations = 10;
+maxRation = 1;
+
+Starting Cross Validation
+SVM Raw Cross Validation - Accuracy = 76.2667%
+SVM HOG Cross Validation - Accuracy = 87.4667%
+SVM PCA Cross Validation - Accuracy = 79.8%
+
+Learning Cycles = 1
+Adaboost Raw Cross Validation took 0.80835 seconds on average
+Adaboost Raw Cross Validation - Accuracy = 74.5333%
+Adaboost HOG Cross Validation took 0.42253 seconds on average
+Adaboost HOG Cross Validation - Accuracy = 71.4%
+Adaboost PCA Cross Validation took 0.038643 seconds on average
+Adaboost PCA Cross Validation - Accuracy = 69.6667%
+
+Learning Cycles = 10
+Adaboost Raw Cross Validation took 9.4399 seconds on average
+Adaboost Raw Cross Validation - Accuracy = 76.1333%
+Adaboost HOG Cross Validation took 5.0243 seconds on average
+Adaboost HOG Cross Validation - Accuracy = 82.1333%
+Adaboost PCA Cross Validation took 0.19138 seconds on average
+Adaboost PCA Cross Validation - Accuracy = 74.3333%
+
+Learning Cycles = 20
+Adaboost Raw Cross Validation took 17.8625 seconds on average
+Adaboost Raw Cross Validation - Accuracy = 81.1333%
+Adaboost HOG Cross Validation took 9.2188 seconds on average
+Adaboost HOG Cross Validation - Accuracy = 85.1333%
+Adaboost PCA Cross Validation took 0.37197 seconds on average
+Adaboost PCA Cross Validation - Accuracy = 77.3333%
+
+Learning Cycles = 50
+Adaboost Raw Cross Validation took 48.1654 seconds on average
+Adaboost Raw Cross Validation - Accuracy = 82.4667%
+Adaboost HOG Cross Validation took 25.5235 seconds on average
+Adaboost HOG Cross Validation - Accuracy = 86.4%
+Adaboost PCA Cross Validation took 0.89701 seconds on average
+Adaboost PCA Cross Validation - Accuracy = 80.2%
