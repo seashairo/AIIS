@@ -23,7 +23,4 @@ for ii = 1 : size(predictions,1)
         fcount = fcount + 1;
     end
 end
-
-
 end
-
