@@ -93,11 +93,11 @@ displayResults(testing.images, testing.labels, results, imX, imY);
 %}
 
 %Cross Validation
-CrossValidateResults([training.images;testing.images], [trainingFeatureVectors;testingFeatureVectors],[pcaTrainingImages;pcaTestImages],[training.labels;testing.labels]);
+%CrossValidateResults([training.images;testing.images], [trainingFeatureVectors;testingFeatureVectors],[pcaTrainingImages;pcaTestImages],[training.labels;testing.labels]);
 
-[accuracry, results, model] = trainAndTest(trainingFeatureVectors, training.labels, @SVMTraining, testingFeatureVectors, testing.labels, @SVMTesting);
+[ model ] = SVMTraining(trainingFeatureVectors, training.labels);
 objects = [];
-for ii = 1 : size(video,4)
+for ii = 1 : 10 %size(video,4)
     tic
     disp(strcat('Processing Frame  ', num2str(ii)));
     % search each frame with an window size of 1.5*imY and 1.5*imX;
