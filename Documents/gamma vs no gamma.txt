@@ -1,0 +1,58 @@
+25 sample
+
+gamma correction
+NN Raw Cross Validation - Accuracy =0.67778
+NN HOG Cross Validation - Accuracy =0.66333
+NN PCA Cross Validation - Accuracy =0.72056
+KNN9 Raw Cross Validation - Accuracy =0.72778
+KNN9 HOG Cross Validation - Accuracy =0.63944
+KNN9 PCA Cross Validation - Accuracy =0.73278
+SVM Raw Cross Validation - Accuracy =0.74778
+SVM HOG Cross Validation - Accuracy =0.76
+SVM PCA Cross Validation - Accuracy =0.76
+Adaboost Raw Cross Validation - Accuracy =0.74278
+Adaboost HOG Cross Validation - Accuracy =0.79889
+Adaboost PCA Cross Validation - Accuracy =0.70778
+
+no gamma correction
+NN Raw Cross Validation - Accuracy =0.71278
+NN HOG Cross Validation - Accuracy =0.71889
+NN PCA Cross Validation - Accuracy =0.77778
+KNN9 Raw Cross Validation - Accuracy =0.71778
+KNN9 HOG Cross Validation - Accuracy =0.65722
+KNN9 PCA Cross Validation - Accuracy =0.73667
+SVM Raw Cross Validation - Accuracy =0.80722
+SVM HOG Cross Validation - Accuracy =0.76778
+SVM PCA Cross Validation - Accuracy =0.76778
+Adaboost Raw Cross Validation - Accuracy =0.74278
+Adaboost HOG Cross Validation - Accuracy =0.81889
+Adaboost PCA Cross Validation - Accuracy =0.71444
+
+10 sample
+no gamma
+NN Raw Cross Validation - Accuracy =0.69244
+NN HOG Cross Validation - Accuracy =0.82067
+NN PCA Cross Validation - Accuracy =0.77044
+KNN9 Raw Cross Validation - Accuracy =0.78267
+KNN9 HOG Cross Validation - Accuracy =0.87578
+KNN9 PCA Cross Validation - Accuracy =0.82022
+SVM Raw Cross Validation - Accuracy =0.78089
+SVM HOG Cross Validation - Accuracy =0.90333
+SVM PCA Cross Validation - Accuracy =0.90333
+Adaboost Raw Cross Validation - Accuracy =0.84
+Adaboost HOG Cross Validation - Accuracy =0.87644
+Adaboost PCA Cross Validation - Accuracy =0.82422
+
+gamma
+NN Raw Cross Validation - Accuracy =0.69978
+NN HOG Cross Validation - Accuracy =0.78733
+NN PCA Cross Validation - Accuracy =0.77889
+KNN9 Raw Cross Validation - Accuracy =0.78089
+KNN9 HOG Cross Validation - Accuracy =0.87222
+KNN9 PCA Cross Validation - Accuracy =0.79422
+SVM Raw Cross Validation - Accuracy =0.75333
+SVM HOG Cross Validation - Accuracy =0.89289
+SVM PCA Cross Validation - Accuracy =0.89289
+Adaboost Raw Cross Validation - Accuracy =0.83889
+Adaboost HOG Cross Validation - Accuracy =0.87644
+Adaboost PCA Cross Validation - Accuracy =0.79778
