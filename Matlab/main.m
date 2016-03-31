@@ -9,6 +9,7 @@ addpath('testing');
 %% Global parameters used throughout project.
 % Sampling rate for loading images.
 sampling = 50;
+disp(strcat('Sample rate: 1 in',char(20),num2str(sampling),' images.'));
 % Image dimensions
 imX = 96;
 imY = 160;
@@ -19,9 +20,9 @@ pcaNumDimensions = 10;
 %% Load training and testing data.
 disp('Loading training and testing images.');
 [training testing] = loadTrainingTestingImages(1, sampling);
-negativeTraining = training.images(training.labels == -1, :);
+negativeTraining = training.images(training.labels == 0, :);
 positiveTraining = training.images(training.labels == 1, :);
-negativeTesting = testing.images(testing.labels == -1, :);
+negativeTesting = testing.images(testing.labels == 0, :);
 positiveTesting = testing.images(testing.labels == 1, :);
 disp('Loaded training and testing images.');
 
@@ -56,6 +57,7 @@ colormap(gray);
 % Raw pixel based uses training.images
 % Dimensionality reduction uses PCA - WARNING: SLOWER THAN A CUP OF DIRT
 disp('Rescaling images for PCA.');
+tic
 trainingImagesRescaled = rescaleImages(training.images, pcaScale, imX, imY);
 testingImagesRescaled = rescaleImages(testing.images, pcaScale, imX, imY);
 disp('Starting dimensionality reduction with PCA.');
@@ -65,22 +67,28 @@ pcaTestImages = [];
 for i = 1 : size(testingImagesRescaled, 1)
     pcaTestImages = [pcaTestImages; ((testingImagesRescaled(i, :) - imMean) * eigenVectors)];
 end
+disp(strcat('Dimensionality reduction with PCA took',char(20),num2str(toc),' seconds to complete.'));
+
 
 % HOG Feature Extraction
 disp ('Extracting HOG Feature Vectors.');
+tic
 trainingFeatureVectors = extractHogFeatures(training.images, imY, imX);
 testingFeatureVectors = extractHogFeatures(testing.images, imY, imX);
+disp(strcat('Extracting HOG Feature Vectors took',char(20),num2str(toc),' seconds to complete.'));
 
 %% Classification
 %Single run with 50:50 split
-trainAndTestResults( training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels )
+%trainAndTestResults( training.images, testing.images, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, training.labels, testing.labels )
 
+%{
 [accuracy, results] = trainAndTest(pcaTrainingImages, training.labels, ...
     @SVMTraining, pcaTestImages, testing.labels, @SVMTesting);
 rr = evaluateResults(testing.labels, results);
 displayResults(testing.images, testing.labels, results, imX, imY);
 
     hold on;
+%}
 
 %Cross Validation
 CrossValidateResults([training.images;testing.images], [trainingFeatureVectors;testingFeatureVectors],[pcaTrainingImages;pcaTestImages],[training.labels;testing.labels]);

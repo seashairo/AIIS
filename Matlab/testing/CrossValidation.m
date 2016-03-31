@@ -1,4 +1,4 @@
-function [ accuracy, consistentlyMislabelled ] = CrossValidation(images, labels, modelFunction, testFunction, trainRatio, testRatio, iterations, seed)
+function [ accuracy, consistentlyMislabelled, trainingTimes, testingTimes ] = CrossValidation(images, labels, modelFunction, testFunction, trainRatio, testRatio, iterations, seed)
 %This method takes a set of images and a set of labels generates from them
 %a number of ratio-based splits of them into two sets, a testing set and a
 %training set. Each split is then tested with the source 
@@ -30,13 +30,15 @@ consistentlyMislabelled = [];
 %This loop creates iteration many test-training sets and passes them to the
 %testing and training function with the chosen classification method.
     consistentlyMislabelled = zeros(size(images,1));
-    contextualisedResults = zeros(size(images,1));
-
-    for i=1:iterations
+    trainingTimes = [];
+    testingTimes = [];
+for i=1:iterations
     [trainImages, trainLabels, testImages, testLabels, testIndices] = splitDataSet(images, labels, trainRatio, testRatio);
-    [accuracy,results] = trainAndTest(trainImages,trainLabels,modelFunction,...
+    [accuracy,results,trainTime,testTime] = trainAndTest(trainImages,trainLabels,modelFunction,...
         testImages,testLabels, testFunction);
     
+    trainingTimes=[trainingTimes;trainTime];
+    testingTimes=[testingTimes;testTime];
     %This calculates which images every iteration of the loop has
     %incorectly classified.
     idx=1;
@@ -51,7 +53,7 @@ consistentlyMislabelled = [];
         end
     end
     accuracies = [accuracies;accuracy];
-    end
+end
 
 %If every iteration of the loop that considered an image as a test image
 %incorrectly classified it, 1 is returned, otherwise 0.

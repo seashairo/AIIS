@@ -1,6 +1,13 @@
 function [  ] = trainAndTestResults( trainingImages, testingImages, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, trainingLabels, testingLabels )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
+
+% Blind Classification
+trainingFunction = @blindTraining;
+testingFunction = @blindTesting;
+classificationName = 'Blind';
+testingResults(trainingImages, testingImages, trainingFeatureVectors, testingFeatureVectors, pcaTrainingImages, pcaTestImages, trainingLabels, testingLabels, trainingFunction,testingFunction,classificationName);
+
 % NN Classification
 trainingFunction = @NNTraining;
 testingFunction = @NNTesting;
