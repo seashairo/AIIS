@@ -22,3 +22,9 @@ Adaboost HOG Cross Validation - Accuracy =0.94418
 Elapsed time is 627.943291 seconds.
 Adaboost PCA Cross Validation - Accuracy =0.86478
 Elapsed time is 9.489472 seconds.
+Blind Raw Cross Validation - Accuracy =66.6327%
+Blind HOG Cross Validation - Accuracy =66.6327%
+Blind PCA Cross Validation - Accuracy =66.6327%
+Composite (Adaboost + SVM) Raw Cross Validation - Accuracy =85.9683%
+Composite (Adaboost + SVM) HOG Cross Validation - Accuracy =94.7837%
+Composite (Adaboost + SVM) PCA Cross Validation - Accuracy =86.6463%
