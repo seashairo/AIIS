@@ -1,4 +1,4 @@
-function [ accuracy, results ] = trainAndTest( images, labels, modelFunction, testData, testLabels, testFunction )
+function [ accuracy, results, model ] = trainAndTest( images, labels, modelFunction, testData, testLabels, testFunction )
 % Builds a model using the modelFunction, images, and labels.
 % Then tests the function using testFunction with testImages and
 % testLabels.

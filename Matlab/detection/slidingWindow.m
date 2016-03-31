@@ -47,9 +47,9 @@ for jj = topLeftCol : stepY : bottomRightCol-winY
         if direction == 1
             window = permute(window,[2,1,3]);
         end
-        
-        windowGray = rgb2gray(window);
-        imVector = reshape(windowGray, 1, size(windowGray,1), size(windowGray, 2));
+        windowResize = imresize(window,[160, 96]);
+        windowGray = rgb2gray(windowResize);
+        imVector = reshape(windowGray, 1, size(windowGray,1) * size(windowGray, 2));
         imDouble = im2double(imVector);
         windows = [windows; imDouble];
         
