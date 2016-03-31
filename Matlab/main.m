@@ -111,7 +111,7 @@ for ii = 1 : size(video,4)
     [SampleVideo(:,:,:,ii), tempobjects] = objectDetection(SampleVideo(:,:,:,ii), model, 160, 96, 0.7);
     objects = [objects; tempobjects];
     % search each frame with an window size of 0.5*imY and 0.5*imX;
-    [SampleVideo(:,:,:,ii), tempobjects] = objectDetection(SampleVideo(:,:,:,ii), model, 80, 46, 0.7);
+    [SampleVideo(:,:,:,ii), tempobjects] = objectDetection(SampleVideo(:,:,:,ii), model, 80, 48, 0.7);
     objects = [objects; tempobjects];
     % apply NMS if we have objects and draw the boxes.
     if isempty(objects) == 0
@@ -119,7 +119,7 @@ for ii = 1 : size(video,4)
     end
 
     for jj = 1 : size(objects,1) 
-        SampleVideo(:,:,:,ii) = addBoxToImage(SampleVideo(:,:,:,ii), objects(jj,1), objects(jj,2), objects(jj,5), objects(jj,4));
+        SampleVideo(:,:,:,ii) = addBoxToImage(SampleVideo(:,:,:,ii), objects(jj,1), objects(jj,2), objects(jj,5), objects(jj,4), uint8([255 0 0]));
     end
     toc
 end
@@ -130,7 +130,7 @@ for ii = 1 : size(SampleVideo,4)
      jj = ii;
      for kk = 1 : TestCoords(jj,1)
          index = kk*5;
-         TestVideo(:,:,:,ii) = addBoxToImage(TestVideo(:,:,:,ii), TestCoords(jj,index-3), TestCoords(jj,index-2), TestCoords(jj,index-1), TestCoords(jj,index));
+         TestVideo(:,:,:,ii) = addBoxToImage(TestVideo(:,:,:,ii), TestCoords(jj,index-3), TestCoords(jj,index-2), TestCoords(jj,index-1), TestCoords(jj,index), uint8([255 0 0]));
      end
      toc
 end
