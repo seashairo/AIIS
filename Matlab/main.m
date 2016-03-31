@@ -124,10 +124,10 @@ for ii = 1 : size(video,4)
     toc
 end
 
-for ii = 3 : size(SampleVideo,4)
+for ii = 1 : size(SampleVideo,4)
      tic
      disp(strcat('Processing Frame  ', num2str(ii)));
-     jj = ii-2;
+     jj = ii;
      for kk = 1 : TestCoords(jj,1)
          index = kk*5;
          TestVideo(:,:,:,ii) = addBoxToImage(TestVideo(:,:,:,ii), TestCoords(jj,index-3), TestCoords(jj,index-2), TestCoords(jj,index-1), TestCoords(jj,index));
