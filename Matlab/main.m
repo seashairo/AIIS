@@ -67,7 +67,7 @@ tic
 trainingImagesRescaled = rescaleImages(training.images, pcaScale, imX, imY);
 testingImagesRescaled = rescaleImages(testing.images, pcaScale, imX, imY);
 disp('Starting dimensionality reduction with PCA.');
-[eigenVectors, eEigenValues, imMean, pcaTrainingImages] = applyPCA(trainingImagesRescaled, 29);
+[eigenVectors, eEigenValues, imMean, pcaTrainingImages] = applyPCA(trainingImagesRescaled, 101);
 % Apply PCA to testing images separately.
 pcaTestImages = [];
 for i = 1 : size(testingImagesRescaled, 1)
