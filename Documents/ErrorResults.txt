@@ -1,3 +1,5 @@
+Sampling = 10
+
 Blind Raw Images - Accuracy =0.66667
 Blind Raw Images - Time =0.0011454
 Blind RawType 1 Error =50
