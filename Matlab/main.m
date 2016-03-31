@@ -8,7 +8,7 @@ addpath('testing');
 
 %% Global parameters used throughout project.
 % Sampling rate for loading images.
-sampling = 50;
+sampling = 10;
 disp(strcat('Sample rate: 1 in',char(20),num2str(sampling),' images.'));
 % Image dimensions
 imX = 96;
